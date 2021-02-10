@@ -2,31 +2,49 @@
   <div class="app">
     <header>
       <h1>The<strong>SciFi</strong>Database</h1>
-      <form class="search-box">
+      <form class="search-box" @submit.prevent="handleSearch">
         <input
           type="search"
           class="search-field"
           placeholder="Search for SciFi movies..."
           required
+          v-model="search_query"
         />
       </form>
     </header>
     <main>
       <div class="cards">
-        <card />
+        <card v-for="movie in movieList" :key="movie.id" />
       </div>
     </main>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
 import Card from './components/Card.vue';
 
 export default {
   components: { Card },
   setup() {
+    const search_query = ref('');
+    const movieList = ref([]);
+
+    const handleSearch = async () => {
+      movieList.value = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=47b624cf802965efaba23c634347de97&query=${search_query.value}`
+      )
+        .then((res) => res.json())
+        .then((data) => data.results);
+
+      console.log(movieList.value);
+    };
+
     return {
       Card,
+      search_query,
+      movieList,
+      handleSearch,
     };
   },
 };
@@ -42,7 +60,7 @@ export default {
 
   font-family: 'Nunito Sans', sans-serif;
   font-size: 62.5%;
-  border: red 1px solid;
+  // border: red 1px solid;
 }
 
 a {
