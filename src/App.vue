@@ -11,11 +11,25 @@
         />
       </form>
     </header>
+    <main>
+      <div class="cards">
+        <card />
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
-export default {};
+import Card from './components/Card.vue';
+
+export default {
+  components: { Card },
+  setup() {
+    return {
+      Card,
+    };
+  },
+};
 </script>
 
 <style lang="scss">
@@ -28,7 +42,7 @@ export default {};
 
   font-family: 'Nunito Sans', sans-serif;
   font-size: 62.5%;
-  // border: red 1px solid;
+  border: red 1px solid;
 }
 
 a {
@@ -90,6 +104,18 @@ header {
         background-color: #313131;
       }
     }
+  }
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem;
+
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -8px;
   }
 }
 </style>
